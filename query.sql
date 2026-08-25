@@ -13,3 +13,25 @@ CREATE TABLE Users (
     CONSTRAINT chk_users_role
         CHECK (role IN ('Ticket Manager', 'Football Fan'))
 );
+
+-- 2. MATCHES TABLE
+CREATE TABLE Matches (
+    match_id INTEGER PRIMARY KEY,
+    fixture VARCHAR(150) NOT NULL,
+    tournament_category VARCHAR(100) NOT NULL,
+    base_ticket_price NUMERIC(10, 2) NOT NULL,
+    match_status VARCHAR(30) NOT NULL,
+
+    CONSTRAINT chk_matches_ticket_price
+        CHECK (base_ticket_price >= 0),
+
+    CONSTRAINT chk_matches_status
+        CHECK (
+            match_status IN (
+                'Available',
+                'Selling Fast',
+                'Sold Out',
+                'Postponed'
+            )
+        )
+);
