@@ -35,3 +35,35 @@ CREATE TABLE Matches (
             )
         )
 );
+
+-- 3. BOOKINGS TABLE
+CREATE TABLE Bookings (
+    booking_id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    match_id INTEGER NOT NULL,
+    seat_number VARCHAR(20),
+    payment_status VARCHAR(30),
+    total_cost NUMERIC(10, 2) NOT NULL,
+
+    CONSTRAINT fk_bookings_user
+        FOREIGN KEY (user_id)
+        REFERENCES Users(user_id),
+
+    CONSTRAINT fk_bookings_match
+        FOREIGN KEY (match_id)
+        REFERENCES Matches(match_id),
+
+    CONSTRAINT chk_bookings_total_cost
+        CHECK (total_cost >= 0),
+
+    CONSTRAINT chk_bookings_payment_status
+        CHECK (
+            payment_status IS NULL
+            OR payment_status IN (
+                'Pending',
+                'Confirmed',
+                'Cancelled',
+                'Refunded'
+            )
+        )
+);
