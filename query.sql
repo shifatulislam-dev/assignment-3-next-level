@@ -96,3 +96,42 @@ VALUES
     (503, 2, 101, 'A-13', 'Confirmed', 150.00),
     (504, 2, 101, NULL, NULL, 150.00),
     (505, 3, 102, 'C-20', 'Pending', 120.00);
+
+-- QUERY 1
+SELECT
+    match_id,
+    fixture,
+    base_ticket_price
+FROM Matches
+WHERE tournament_category = 'Champions League'
+  AND match_status = 'Available';
+
+-- QUERY 2
+SELECT
+    user_id,
+    full_name,
+    email
+FROM Users
+WHERE full_name ILIKE 'Tanvir%'
+   OR full_name ILIKE '%Haque%';
+
+-- QUERY 3
+SELECT
+    booking_id,
+    user_id,
+    match_id,
+    COALESCE(payment_status, 'Action Required') AS systematic_status
+FROM Bookings
+WHERE payment_status IS NULL;
+
+-- QUERY 4
+SELECT
+    b.booking_id,
+    u.full_name,
+    m.fixture,
+    b.total_cost
+FROM Bookings AS b
+INNER JOIN Users AS u
+    ON b.user_id = u.user_id
+INNER JOIN Matches AS m
+    ON b.match_id = m.match_id;
