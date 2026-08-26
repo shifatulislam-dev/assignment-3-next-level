@@ -135,3 +135,13 @@ INNER JOIN Users AS u
     ON b.user_id = u.user_id
 INNER JOIN Matches AS m
     ON b.match_id = m.match_id;
+
+-- QUERY 5
+SELECT
+    u.user_id,
+    u.full_name,
+    b.booking_id
+FROM Users AS u
+LEFT JOIN Bookings AS b
+    ON u.user_id = b.user_id
+ORDER BY u.user_id, b.booking_id;
